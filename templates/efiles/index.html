@@ -1,0 +1,34 @@
+{% extends 'aside/base.html' %}
+{% block title %}Notes App{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="border p-3 shadow">
+    <form method ="POST">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <input type="Submit" class="btn btn-success btn-block" value="submit">
+    </form>
+    <hr>
+    {% for todo in todos %}
+    <div class="border p-3 mb-3">
+        <small>{{ todo.date }}</small>
+        <div class="row">
+            <div class="col-md-8">
+                {% if todo.complete == True %}
+                <p><span class="btn btn-success"><i class="fa-sharp fa-regular fa-circle-check"></i>
+                </span> {{ todo.title }} </p>
+                {% else %}
+                <p>{{ todo.title }}</p>
+                {% endif %}
+                
+            </div>
+            <div class="col-md-4">
+                <a href="{% url 'notes-update' todo.id %}" class="btn btn-info btn-sm">Edit</a>
+                <a href="{% url 'notes-delete' todo.id %}" class="btn btn-danger btn-sm">Delete</a>
+            </div>
+        </div>
+    </div>
+ 
+  {% endfor %}
+</div>
+{% endblock %}
